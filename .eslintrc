@@ -15,7 +15,6 @@
     }
   },
   "rules": {
-    "max-len": ["error", 100],
-    "arrow-body-style": ["error", "always"]
+    "max-len": ["error", 100]
   }
 }
