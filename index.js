@@ -12,9 +12,9 @@ const welcomeLocale = getWelcomeLocale(locale);
 
 bot.start((context) => {
   const showWelcomeKeyboard = createKeyboard([
-    Markup.callbackButton(welcomeLocale.buttons.rolePadavan, 'test'),
-    Markup.callbackButton(welcomeLocale.buttons.roleMentor, 'test'),
-  ]);
+    Markup.callbackButton(welcomeLocale.buttons.rolePadavan, '/start'),
+    Markup.callbackButton(welcomeLocale.buttons.roleMentor, '/start'),
+  ], { columns: 2 });
 
   return context.reply(welcomeLocale.text, showWelcomeKeyboard);
 });

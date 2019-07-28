@@ -5,9 +5,11 @@ const getWelcomeLocale = (locale) => {
   return get(locale, 'scenarios.welcome', {});
 };
 
-const createKeyboard = (buttons) => {
+const createKeyboard = (buttons, options = {}) => {
   return Extra.markdown().markup((m) => {
-    return m.keyboard(buttons).resize();
+    return m.keyboard(buttons, options)
+      .oneTime()
+      .resize();
   });
 };
 
