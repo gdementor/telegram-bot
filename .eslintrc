@@ -1,10 +1,12 @@
 {
-  "extends": "airbnb-base",
+  "extends": [
+    "airbnb-base",
+    "plugin:prettier/recommended"
+  ],
   "plugins": [
-    "import"
+    "prettier"
   ],
   "env": {
-    "browser": true,
     "node": true
   },
   "settings": {
@@ -14,8 +16,13 @@
       }
     }
   },
+  "parserOptions": {
+    "ecmaVersion": 2019,
+    "sourceType": "module"
+  },
   "rules": {
     "max-len": ["error", 100],
-    "arrow-body-style": 0
+    "arrow-body-style": 0,
+    "prettier/prettier": "error"
   }
 }
