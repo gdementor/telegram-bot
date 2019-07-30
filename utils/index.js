@@ -1,19 +1,13 @@
-const get = require('lodash/get');
-const Extra = require('telegraf/extra');
+const Markup = require('telegraf/markup');
 
-const getWelcomeLocale = (locale) => {
-  return get(locale, 'scenarios.welcome', {});
-};
-
-const createKeyboard = (buttons, options = {}) => {
-  return Extra.markdown().markup((m) => {
-    return m.keyboard(buttons, options)
-      .oneTime()
-      .resize();
-  });
+const createKeyboard = (buttonsList, options = { columns: 2 }) => {
+  return Markup
+    .keyboard(buttonsList, options)
+    .oneTime()
+    .resize()
+    .extra();
 };
 
 module.exports = {
-  getWelcomeLocale,
   createKeyboard,
 };
