@@ -1,8 +1,20 @@
 const get = require("lodash/get");
 const Extra = require("telegraf/extra");
+const locale = require("../constants/locale");
 
-const getWelcomeLocale = locale => {
-  return get(locale, "scenarios.welcome", {});
+const getLocale = (language, key = "") => {
+  if (!language) {
+    return null;
+  }
+
+  let localeKey = "";
+  if (key) {
+    localeKey = `${localeKey}.${key}`;
+  } else {
+    localeKey = language;
+  }
+
+  return get(locale, localeKey, null);
 };
 
 const createKeyboard = (buttons, options = {}) => {
@@ -15,6 +27,6 @@ const createKeyboard = (buttons, options = {}) => {
 };
 
 module.exports = {
-  getWelcomeLocale,
+  getLocale,
   createKeyboard
 };
