@@ -1,25 +1,41 @@
 require("dotenv").config();
+const Stage = require("telegraf/stage");
 
-const Telegraf = require("telegraf");
-const Markup = require("telegraf/markup");
-const config = require("./config/defaults");
-const locale = require("./constants/locale");
-const { getWelcomeLocale, createKeyboard } = require("./utils");
+const { bot } = require("./bot");
+const { localSession } = require("./storage");
 
-const bot = new Telegraf(config.token);
+const { createMainScene } = require("./scenes/main");
 
-const welcomeLocale = getWelcomeLocale(locale);
+const scenes = [];
+const mainScene = createMainScene(scenes);
 
-bot.start(context => {
-  const showWelcomeKeyboard = createKeyboard(
-    [
-      Markup.callbackButton(welcomeLocale.buttons.rolePadavan, "/start"),
-      Markup.callbackButton(welcomeLocale.buttons.roleMentor, "/start")
-    ],
-    { columns: 2 }
-  );
+bot.use(localSession.middleware());
 
-  return context.reply(welcomeLocale.text, showWelcomeKeyboard);
+const stage = new Stage(scenes);
+bot.use(stage.middleware());
+
+bot.start(async ctx => {
+  const { id, username } = await ctx.getChat();
+  ctx.session.user = {
+    id,
+    username,
+    active: true
+  };
+
+  const defaultSettings = {
+    timezone: 3,
+  };
+
+  if (ctx.session.settings) {
+    ctx.session.settings = {
+      ...defaultSettings,
+      ...ctx.session.settings
+    };
+  } else {
+    ctx.session.settings = defaultSettings;
+  }
+
+  Stage.enter(mainScene.id)(ctx);
 });
 
 bot.launch();
