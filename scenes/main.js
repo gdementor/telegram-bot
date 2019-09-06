@@ -10,6 +10,10 @@ exports.createMainScene = scenes => {
   const scene = new Scene(sceneName);
 
   scene.enter(async ctx => {
+    if (ctx.session.timerId) {
+      return ctx.scene.enter("PADAWAN_TIMER");
+    }
+
     return ctx.addToQueue(async () => {
       ctx.replyWithHTML(
         texts.messages.enter(),

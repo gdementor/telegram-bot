@@ -17,22 +17,16 @@ exports.getAllUsers = async () => {
 };
 
 exports.getUserById = async userId => {
-  const sessions = localSession.DB.get("sessions");
-
-  for (const session of sessions.value()) {
-    const [id] = session.id.split(":");
-
-    if (id === userId) {
-      return session.data;
-    }
-  }
-  return null;
+  const userSession = localSession.DB.get("sessions")
+    .getById(`${userId}:${userId}`)
+    .value();
+  return userSession ? userSession.data : null;
 };
 
 const debouncedSave = _.debounce(() => {
   localSession.DB.write();
-}, 250);
+}, 100);
 exports.updateUserById = async (userId, data) => {
-  Object.assign(exports.getUserById(userId), data);
+  Object.assign(await exports.getUserById(userId), data);
   debouncedSave();
 };

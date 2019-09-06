@@ -7,3 +7,4 @@ const bot = new Telegraf(process.env.BOT_TOKEN);
 bot.context.addToQueue = queue.add.bind(queue);
 
 exports.bot = bot;
+exports.queueAdd = queue.add.bind(queue);

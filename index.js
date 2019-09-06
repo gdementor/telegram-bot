@@ -23,7 +23,7 @@ bot.start(async ctx => {
   };
 
   const defaultSettings = {
-    timezone: 3,
+    timezone: 3
   };
 
   if (ctx.session.settings) {
